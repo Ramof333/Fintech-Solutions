@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Fintech Solutions – Recruitment Portal</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #0f172a;
+    color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: #020617;
+    padding: 30px;
+    width: 520px;
+    border-radius: 10px;
+    position: relative;
+}
+
+h2 {
+    text-align: center;
+}
+
+h2 span {
+    font-size: 14px;
+    color: #22c55e;
+    display: block;
+    margin-top: 4px;
+}
+
+.form-row {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.form-row label {
+    width: 40%;
+    font-size: 14px;
+    color: #cbd5f5;
+}
+
+.form-row input,
+.form-row select {
+    width: 60%;
+    padding: 8px;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 15px;
+    background: #22c55e;
+    border: none;
+    color: #000;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
+}
+
+.timer {
+    font-size: 22px;
+    color: #facc15;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.redirect-note {
+    font-size: 13px;
+    color: #94a3b8;
+    text-align: center;
+    margin-top: 8px;
+}
+
+img {
+    width: 220px;
+    display: block;
+    margin: 15px auto;
+}
+
+/* POPUP */
+.popup {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.popup-box {
+    background: #020617;
+    padding: 25px;
+    width: 340px;
+    border-radius: 10px;
+    text-align: center;
+}
+.popup-box p {
+    font-size: 14px;
+    color: #cbd5f5;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- STEP 1 -->
+<div id="step1">
+    <h2>Fintech Solutions – Recruitment Portal</h2>
+
+    <div class="form-row">
+        <label>First Name</label>
+        <input type="text" required>
+    </div>
+
+    <div class="form-row">
+        <label>Last Name</label>
+        <input type="text" required>
+    </div>
+
+    <div class="form-row">
+        <label>Email</label>
+        <input type="email" required>
+    </div>
+
+    <div class="form-row">
+        <label>Phone Number</label>
+        <input type="tel" required>
+    </div>
+
+    <div class="form-row">
+        <label>Gender</label>
+        <select required>
+            <option value="">Select</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label>State</label>
+        <select required>
+            <option value="">Select</option>
+            <option>Telangana (TS)</option>
+            <option>Andhra Pradesh (AP)</option>
+            <option>Maharashtra</option>
+            <option>Karnataka</option>
+            <option>Tamil Nadu</option>
+            <option>Kerala</option>
+            <option>Nepal</option>
+            <option>Other</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label>Experience</label>
+        <select required>
+            <option value="">Select</option>
+            <option>Fresher</option>
+            <option>Experienced</option>
+        </select>
+    </div>
+
+    <div class="form-row">
+        <label>Salary Expectation</label>
+        <input type="text" placeholder="Monthly / Yearly">
+    </div>
+
+    <button onclick="nextStep(2)">Next</button>
+</div>
+
+<!-- STEP 2 -->
+<div id="step2" class="hidden">
+    <h2>Upload Resume</h2>
+    <input type="file" accept=".pdf,.doc,.docx" required>
+    <button onclick="nextStep(3)">Next</button>
+</div>
+
+<!-- STEP 3 -->
+<div id="step3" class="hidden">
+    <h2>
+        Application Verification
+        <span>99 INR to be paid</span>
+    </h2>
+
+    <img src="gpay990.jpg.png" alt="Google Pay QR">
+
+    <div class="timer" id="timer">10:00</div>
+
+    <div class="redirect-note">
+        Once the payment is completed, you will be automatically redirected
+        to the next page.
+    </div>
+
+    <div id="popup" class="popup">
+        <div class="popup-box" id="popupContent">
+            <h3>Important Notice</h3>
+            <p>
+                To ensure only serious candidates apply, Fintech Solutions
+                requires a small application verification fee.
+            </p>
+            <p>
+                 <strong>99 INR – 100% refundable within 12 hours</strong><br>
+                 Refund to the same UPI ID<br>
+                 Helps reduce spam applications
+            </p>
+            <button onclick="showUpiInput()">I Understand</button>
+        </div>
+    </div>
+</div>
+
+</div>
+
+<script>
+function nextStep(step) {
+    document.getElementById("step1").classList.add("hidden");
+    document.getElementById("step2").classList.add("hidden");
+    document.getElementById("step3").classList.add("hidden");
+    document.getElementById("step" + step).classList.remove("hidden");
+}
+
+function showUpiInput() {
+    document.getElementById("popupContent").innerHTML = `
+        <h3>Enter Your UPI ID</h3>
+        <p>This UPI ID will be used to process your refund.</p>
+        <input type="text" id="upiId" placeholder="example@upi" required>
+        <button onclick="confirmUpi()">Continue</button>
+    `;
+}
+
+function confirmUpi() {
+    const upi = document.getElementById("upiId").value.trim();
+    if (!upi || !upi.includes("@")) {
+        alert("Please enter a valid UPI ID");
+        return;
+    }
+    document.getElementById("popup").style.display = "none";
+    startTimer(600);
+}
+
+function startTimer(seconds) {
+    let time = seconds;
+    const timerEl = document.getElementById("timer");
+
+    const interval = setInterval(() => {
+        let min = Math.floor(time / 60);
+        let sec = time % 60;
+        timerEl.innerHTML = `${min}:${sec < 10 ? "0" : ""}${sec}`;
+        time--;
+        if (time < 0) {
+            clearInterval(interval);
+            timerEl.innerHTML = "Time Expired";
+        }
+    }, 1000);
+}
+</script>
+
+</body>
+</html>
